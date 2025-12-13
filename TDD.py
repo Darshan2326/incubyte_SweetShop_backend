@@ -1,7 +1,7 @@
 # app/auth/routes.py
 from fastapi import APIRouter, HTTPException
 from app.user.models import RegisterForm, LoginForm
-from app.user.utils import check_password, create_token
+from app.user.utils import hash_password,check_password, create_token
 from app.database import users_collection
 from datetime import datetime
 import uuid
@@ -10,7 +10,7 @@ router = APIRouter(prefix="", tags=["auth"])
 
 
 @router.post("/api/auth/register")
-async def UserRegister(form: RegisterModel):
+async def UserRegister(form: RegisterForm):
     user_in_db = await users_collection.find_one({"email": form.email})
     if user_in_db:
         raise HTTPException(
