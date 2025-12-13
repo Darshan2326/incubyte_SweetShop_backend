@@ -43,3 +43,37 @@ async def test_purchese(
         "sweetID": sweetID,
 
     }
+
+
+@router.post("/api/sweets/{sweetID}/restock")
+async def test_restock(
+    sweetID: str,
+    restoreQuantity: int,
+    user=Depends(fetch_current_user)
+):
+    if restoreQuantity <= 0:
+        raise HTTPException(status_code=400, detail="enter atleas 1 quanity")
+
+    findSweets = await sweets_collection.find_one({"_id": sweetID})
+    if not findSweets:
+        raise HTTPException(
+            status_code=404, detail="sweet not foud ,please check the sweetID")
+
+    await sweets_collection.update_one(
+        {"_id": sweetID},
+        {
+            "$inc": {"quantity": restoreQuantity},
+            "$set": {"updatedAt": datetime.utcnow(),
+                     "last_action": {
+                "quantity": restoreQuantity,
+                "type": "restock",
+                "by": user["email"],
+                "at": datetime.utcnow()
+            }
+            }
+        }
+    )
+    return {
+        "message": f"congratulation {restoreQuantity} Sweet restocked successfully",
+        "sweetID": sweetID,
+    }
