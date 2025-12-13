@@ -2,6 +2,7 @@ from fastapi import FastAPI
 # from app.auth.routes import router as auth_router
 from app.user.routes import router as user_router
 # from test.auth_TDD import router as auth_router // TDD test
+from fastapi.middleware.cors import CORSMiddleware
 
 
 from app.sweets.routes import router as sweets_router
@@ -10,6 +11,15 @@ from app.sweets.routes import router as sweets_router
 from app.Inventory.Inventory import router as inventory_router
 
 app = FastAPI(title="Sweet Shop API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(user_router)
 # app.include_router(auth_router) // TDD test
