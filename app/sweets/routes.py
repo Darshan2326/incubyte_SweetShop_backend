@@ -81,7 +81,8 @@ async def update_sweet(
     data: update_sweet_model,
     user=Depends(fetch_current_user)
 ):
-    updateData = data.model_dump(exclude_unset=True)
+    # Fixed: Using dict() instead of model_dump() for Pydantic v1.x compatibility
+    updateData = data.dict(exclude_unset=True)
 
     if not updateData:
         raise HTTPException(
@@ -112,9 +113,16 @@ async def update_sweet(
 @router.delete("/delete/{sweetID}")
 async def delete_sweet(
     sweetID: str,
-    # Changed from fetch_current_user to require_admin
     user=Depends(require_admin)
 ):
+    # First find the sweet to get its name before deleting
+    sweet = await sweets_collection.find_one({"_id": sweetID})
+    if not sweet:
+        raise HTTPException(
+            status_code=404,
+            detail=">>> Sweet not found <<< please check the ID and try again"
+        )
+
     result = await sweets_collection.delete_one({"_id": sweetID})
     if result.deleted_count == 0:
         raise HTTPException(
@@ -124,5 +132,5 @@ async def delete_sweet(
     return {
         "message": ">>> Sweet deleted successfully <<<",
         "sweetID": sweetID,
-        "Sweet name": findSweets["name"]
+        "sweetName": sweet["name"]
     }

@@ -76,4 +76,5 @@ async def test_restock(
     return {
         "message": f"congratulation {restoreQuantity} Sweet restocked successfully",
         "sweetID": sweetID,
+        "sweetName": findSweets["name"]
     }
