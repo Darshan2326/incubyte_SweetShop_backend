@@ -77,29 +77,6 @@ async def test_searchSweet(
     return sweets
 
 
-# @router.put("update/{sweetID}")
-# async def test_update_sweet(
-#     sweetID: str,
-#     data: update_sweet_model,
-#     user=Depends(fetch_current_user)
-# ):
-
-#     updateData = data.model_dump(exclude_unset=True)
-
-#     if not updateData:
-#         raise HTTPException(
-#             status_code=400, detail="No data provided for update please provude data")
-
-#     updateData["updatedAt"] = datetime.utcnow()
-
-#     result = await sweets_collection.update_one({"_id": sweetID}, {"$set": updateData})
-
-#     if result.modified_count == 0:
-#         raise HTTPException(
-#             status_code=404, detail="Sweet not found of this ID or not updated please check the ID and try again")
-#     return {"message": "Sweet updated successfully", "sweet": updateData}
-
-
 @router.put("/update/{sweetID}")
 async def test_update_sweet(
     sweetID: str,
@@ -131,4 +108,21 @@ async def test_update_sweet(
         "message": "Sweet updated successfully check all sweet for see the update",
         "sweetID": sweetID,
         "updated_fields": updateData
+    }
+
+
+@router.delete("/delete/{sweetID}")
+async def test_delete_sweet(
+    sweetID: str,
+    user=Depends(fetch_current_user)
+):
+    result = await sweets_collection.delete_one({"_id": sweetID})
+    if result.deleted_count == 0:
+        raise HTTPException(
+            status_code=404,
+            detail=">>> Sweet not found <<< please check the ID and try again"
+        )
+    return {
+        "message": ">>> Sweet deleted successfully <<<",
+        "sweetID": sweetID
     }
