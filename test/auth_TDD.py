@@ -1,6 +1,5 @@
 # app/auth/routes.py
-from fastapi import APIRouter, HTTPException
-from app.user.models import RegisterForm
+from fastapi import APIRouter
 from app.user.utils import hash_password,check_password, create_token
 from app.database import users_collection
 from datetime import datetime
