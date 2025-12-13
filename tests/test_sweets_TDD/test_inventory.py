@@ -1,9 +1,8 @@
-
-
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.routing import APIRoute
 from app.database import sweets_collection
 from tests.test_auth.test_dependencies import fetch_current_user
+from app.auth.dependencies import require_admin
 from datetime import datetime
 
 router = APIRouter(prefix="", tags=["inventory"])
@@ -49,7 +48,8 @@ async def test_purchese(
 async def test_restock(
     sweetID: str,
     restoreQuantity: int,
-    user=Depends(fetch_current_user)
+    # Changed from fetch_current_user to require_admin
+    user=Depends(require_admin)
 ):
     if restoreQuantity <= 0:
         raise HTTPException(status_code=400, detail="enter atleas 1 quanity")

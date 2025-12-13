@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.sweets.model import create_sweet_model, update_sweet_model
-from app.auth.dependencies import fetch_current_user
+from app.auth.dependencies import fetch_current_user, require_admin
 from app.database import sweets_collection
 from datetime import datetime
 import uuid
@@ -112,7 +112,8 @@ async def update_sweet(
 @router.delete("/delete/{sweetID}")
 async def delete_sweet(
     sweetID: str,
-    user=Depends(fetch_current_user)
+    # Changed from fetch_current_user to require_admin
+    user=Depends(require_admin)
 ):
     result = await sweets_collection.delete_one({"_id": sweetID})
     if result.deleted_count == 0:
@@ -122,5 +123,6 @@ async def delete_sweet(
         )
     return {
         "message": ">>> Sweet deleted successfully <<<",
-        "sweetID": sweetID
+        "sweetID": sweetID,
+        "Sweet name": findSweets["name"]
     }
