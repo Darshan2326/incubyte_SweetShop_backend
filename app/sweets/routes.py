@@ -1,7 +1,5 @@
-
 from fastapi import APIRouter, Depends, HTTPException
-# from app.sweets.model import create_sweet_model
-from tests.test_sweets_TDD.test_model import create_sweet_model
+from app.sweets.model import create_sweet_model
 from app.auth.dependencies import fetch_current_user
 from app.database import sweets_collection
 from datetime import datetime
@@ -12,7 +10,7 @@ router = APIRouter(prefix="", tags=["SweetsRout"])
 
 
 @router.post("/api/sweets/addSweets")
-async def test_add_Sweets(
+async def add_Sweets(
     data: create_sweet_model,
     user=Depends(fetch_current_user)
 ):
@@ -39,7 +37,7 @@ async def test_add_Sweets(
 
 
 @router.get("/api/sweets")
-async def test_get_sweets():
+async def get_sweets():
     sweets = []
     cursor = sweets_collection.find({})
 
@@ -49,12 +47,12 @@ async def test_get_sweets():
 
 
 @router.get("/api/sweets/search")
-async def test_searchSweet(
+async def searchSweet (
     name: str | None = None,
     category: str | None = None,
     low_price: float | None = None,
     hight_price: float | None = None,
-    user=Depends(fetch_current_user)
+    user = Depends(fetch_current_user)
 ):
     sweetsList = {}
 

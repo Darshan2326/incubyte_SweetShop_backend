@@ -33,3 +33,4 @@ client = AsyncIOMotorClient(MONGO_URL)
 db = client["sweetshop"]
 
 users_collection = db["users"]
+sweets_collection = db["sweets"]  # Added sweets collection
