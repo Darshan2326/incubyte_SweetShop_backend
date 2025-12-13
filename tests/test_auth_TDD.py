@@ -1,7 +1,7 @@
 # app/auth/routes.py
 from fastapi import APIRouter, HTTPException
-from app.user.models import RegisterForm
-from app.user.utils import hash_password,check_password, create_token
+from app.user.models import RegisterForm, LoginForm
+from app.user.utils import hash_password, check_password, create_token
 from app.database import users_collection
 from datetime import datetime
 import uuid
@@ -10,7 +10,7 @@ router = APIRouter(prefix="", tags=["auth"])
 
 
 @router.post("/api/auth/register")
-async def UserRegister(form: RegisterForm):
+async def test_UserRegister(form: RegisterForm):
     user_in_db = await users_collection.find_one({"email": form.email})
     if user_in_db:
         raise HTTPException(
@@ -43,9 +43,8 @@ async def UserRegister(form: RegisterForm):
     }
 
 
-
 @router.post("/api/auth/login")
-async def UserLogin(form: LoginForm):
+async def test_UserLogin(form: LoginForm):
     find_in_user_collection = await users_collection.find_one({"email": form.email})
     if not find_in_user_collection:
         raise HTTPException(
@@ -67,5 +66,3 @@ async def UserLogin(form: LoginForm):
             "email": find_in_user_collection["email"],
         }
     }
-
-
