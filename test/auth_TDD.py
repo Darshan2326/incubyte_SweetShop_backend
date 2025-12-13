@@ -1,6 +1,7 @@
 # app/auth/routes.py
-from fastapi import APIRouter
-from app.user.utils import hash_password,check_password, create_token
+from fastapi import APIRouter, HTTPException
+from app.user.models import RegisterForm, LoginForm
+from app.user.utils import hash_password, check_password, create_token
 from app.database import users_collection
 from datetime import datetime
 import uuid
@@ -42,7 +43,6 @@ async def UserRegister(form: RegisterForm):
     }
 
 
-
 @router.post("/api/auth/login")
 async def UserLogin(form: LoginForm):
     find_in_user_collection = await users_collection.find_one({"email": form.email})
@@ -66,5 +66,3 @@ async def UserLogin(form: LoginForm):
             "email": find_in_user_collection["email"],
         }
     }
-
-
