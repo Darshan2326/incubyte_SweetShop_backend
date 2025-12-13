@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException
 # from app.sweets.model import create_sweet_model
-from tests.test_sweets_TDD.test_model import create_sweet_model
+from tests.test_sweets_TDD.test_model import create_sweet_model, update_sweet_model
 from app.auth.dependencies import fetch_current_user
 from app.database import sweets_collection
 from datetime import datetime
@@ -75,3 +75,25 @@ async def test_searchSweet(
     async for sweet in cursor:
         sweets.append(sweet)
     return sweets
+
+
+@router.put(f"/{sweetID}")
+async def test_update_sweet(
+    sweetID: str,
+    data: update_sweet_model,
+    user=Depends(fetch_current_user)
+):
+    updateData = data.model_dump(exclude_unset=True)
+
+    if not updateData:
+        raise HTTPException(
+            status_code=400, detail="No data provided for update please provude data")
+
+    updateData["updatedAt"] = datetime.utcnow()
+
+    result = await sweets_collection.update_one({"_id": sweetID}, {"$set": updateData})
+
+    if result.modified_count == 0:
+        raise HTTPException(
+            status_code=404, detail="Sweet not found of this ID or not updated please check the ID and try again")
+    return {"message": "Sweet updated successfully", "sweet": updateData}
