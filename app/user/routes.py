@@ -20,17 +20,23 @@ async def UserRegister(form: RegisterForm):
 
     hashed = hash_password(form.password)
 
+    # Check if this should be an admin user (you can modify this condition as needed)
+    # For example, you could check if the email is in a predefined list of admin emails
+    role = "admin" if "@admin." in form.email or form.email.endswith(
+        "@sweetshop.com") else "user"
+
     data = {
         "_id": user_id,
         "name": form.name,
         "email": form.email,
         "password_hash": hashed,
+        "role": role,  # Adding role to user data
         "created_at": datetime.utcnow()
     }
 
     await users_collection.insert_one(data)
 
-    token = create_token({"id": user_id, "email": form.email})
+    token = create_token({"id": user_id, "email": form.email, "role": role})
 
     return {
         "message": "User registered successfully",
@@ -39,6 +45,7 @@ async def UserRegister(form: RegisterForm):
             "id": user_id,
             "name": form.name,
             "email": form.email,
+            "role": role
         }
     }
 
@@ -54,8 +61,13 @@ async def UserLogin(form: LoginForm):
         raise HTTPException(
             status_code=401, detail="Invalid credentials plesae check the username and password")
 
+    # Include role in the token
     token = create_token(
-        {"id": find_in_user_collection["_id"], "email": find_in_user_collection["email"]})
+        {
+            "id": find_in_user_collection["_id"],
+            "email": find_in_user_collection["email"],
+            "role": find_in_user_collection.get("role", "user")
+        })
 
     return {
         "message": "Login successful",
@@ -64,5 +76,6 @@ async def UserLogin(form: LoginForm):
             "id": find_in_user_collection["_id"],
             "name": find_in_user_collection["name"],
             "email": find_in_user_collection["email"],
+            "role": find_in_user_collection.get("role", "user")
         }
     }
