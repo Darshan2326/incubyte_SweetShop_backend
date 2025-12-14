@@ -14,7 +14,13 @@ app = FastAPI(title="Sweet Shop API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    # allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://uat-incubyte-sweet-shop-frontend-mxw8wbsz3.vercel.app",
+        # Add your production domain when ready
+        "https://your-production-domain.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
