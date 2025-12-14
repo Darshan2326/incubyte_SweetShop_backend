@@ -3,11 +3,45 @@
 A FastAPI-based backend for a sweet shop management system with user authentication and inventory management.
 
 
+### what i leanr
+- i knwo python fast API but in this assesment i learn to manageing well authantication and seurity
+
+
+
+### AI Usage Policy (Important)
+
+in backend i use pyhon fastAPI and i have enough experience in python to create API so for backend i used my own logic for authanticate i use ChatGPT AI and for run time error i use qoder AI, the list of open sorce usege are below
+
+- used chatGPT for find batter way of API and masive logic
+- for solve the run time error i use qoder and copilot
+
+
+- **AI Co-authorship** :- ChatGPT , qoder , copilot.
+
+
+### what i learn 
+- i realy enjoy this assesment and i learn about the react now atleast i am capable to create basic react project.
+- i learn Vercel and Render deployement with Github and gain my CICD skill.
+- i learn the new errors that i didn't heread yet during the deployement.
+- i realise my abiloty and productivity by this assesment
+- backend is live in render website where i can perform CICD "https://incubyte-sweetshop-backend.onrender.com/"
+
+
+
+
 ### AI Usage Policy (Important) ###
 `I use AI for finding the solution and understadning the logc as well finding the shortest and efected way to implimentation and for debuging`
 `i can proudly say that i use 20% AI , 10% of browser and 70% is my master logic.`
 `All business logic, validations, database operations, and testing were implemented and refined by me. AI was used as a productivity tool, not as a replacement for understanding.`
 
+
+## API Integration
+
+The frontend communicates with a backend API hosted at `https://incubyte-sweetshop-backend.onrender.com` for all data operations including:
+- User authentication
+- Sweet inventory management
+- Purchase operations
+- Search functionality
 
 
 ## Project Structure
@@ -63,16 +97,23 @@ A FastAPI-based backend for a sweet shop management system with user authenticat
 
 - `POST /api/sweets/addSweets` - Add a new sweet product
 - `GET /api/sweets` - Get all sweet products
-- `GET /api/sweets/search` - Search sweets by name, category, or price range [http://127.0.0.1:8000/api/sweets/search?category=Cakes&low_price=12]
-- `PUT /update/{sweetID}` - Update a sweet product by ID [http://127.0.0.1:8000/update/5769e7df-8f5a-4ed9-b1f5-6c127b6a2ee1]
+- `GET /api/sweets/search` - Search sweets by name, category, or price range 
+   [https://incubyte-sweetshop-backend.onrender.com/api/sweets/search?category=Cakes&low_price=12]
+- `PUT /update/{sweetID}` - Update a sweet product by ID 
+   [https://incubyte-sweetshop-backend.onrender.com/update/5769e7df-8f5a-4ed9-b1f5-6c127b6a2ee1]
 
 ### Sweets inventory
-- `POST /api/sweets/{SweetID}/purchese?quantity=2` - Purchase the sweet by giving the quanity [http://127.0.0.1:8000/api/sweets/a0e808df-970b-4658-a2fd-c16a9a647799/purchese?quantity=2]
-- `POST /api/sweets/{SweetID}/restock?restoreQuantity=1` - restock the sweet by giving the quanity [http://127.0.0.1:8000/api/sweets/a0e808df-970b-4658-a2fd-c16a9a647799/restock?restoreQuantity=1]
+- `POST /api/sweets/{SweetID}/purchese?quantity=2` - Purchase the sweet by giving the quanity  
+   [https://incubyte-sweetshop-backend.onrender.com/api/sweets/a0e808df-970b-4658-a2fd-c16a9a647799/purchese?quantity=2]
+- `POST /api/sweets/{SweetID}/restock?restoreQuantity=1` - restock the sweet by giving the quanity 
+   [https://incubyte-sweetshop-backend.onrender.com/api/sweets/a0e808df-970b-4658-a2fd-c16a9a647799/restock?restoreQuantity=1]
 
 ## Setup and Installation
 
 1. Clone the repository
+   git clone https://github.com/Darshan2326/incubyte_SweetShop_backend.git
+
+
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
